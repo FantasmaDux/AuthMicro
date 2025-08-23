@@ -32,6 +32,11 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/v1/login/confirmEmail").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers("/auth/v1/refreshToken").permitAll()
+                                .requestMatchers(
+                                        "/auth/swagger-ui/**",
+                                        "/auth/v3/api-docs/**",
+                                        "/auth/swagger-ui.html"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
