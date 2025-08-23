@@ -2,7 +2,6 @@ package io.github.pavelshe11.authmicro.api.server.http.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.pavelshe11.authmicro.annotations.CommonApiResponses;
-import io.github.pavelshe11.authmicro.annotations.CommonFieldErrorApiResponse;
 import io.github.pavelshe11.authmicro.api.dto.ErrorDto;
 import io.github.pavelshe11.authmicro.api.dto.responses.RegistrationResponseDto;
 import io.github.pavelshe11.authmicro.services.RegistrationService;
@@ -33,9 +32,61 @@ public class RegistrationController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Код подтверждения отправлен на почту пользователя"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверно указаны данные",
+                    content = @Content(schema = @Schema(implementation = ErrorDto.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "InvalidCodeException",
+                                            summary = "Неверный код подтверждения",
+                                            value = """
+                                                    {
+                                                      "error": "Неверный код подтверждения."
+                                                    }
+                                                    """
+                                    ),
+                                    @ExampleObject(
+                                            name = "CodeExpiredException",
+                                            summary = "Код подтверждения истёк",
+                                            value = """
+                                                    {
+                                                      "error": "Код подтверждения истёк. Пожалуйста, запросите новый код."
+                                                    }
+                                                    """
+                                    ),
+                                    @ExampleObject(
+                                            name = "FieldValidationException",
+                                            summary = "Ошибка регистрации",
+                                            value = """
+                                                    {
+                                                      "error": "Ошибка регистрации",
+                                                      "detailedErrors": [
+                                                        {
+                                                          "field": "email",
+                                                          "message": "Некорректный формат Email."
+                                                        },
+                                                        {
+                                                          "field": "firstName",
+                                                          "message": "Поле пустое."
+                                                        },
+                                                        {
+                                                          "field": "acceptedPrivacyPolicy",
+                                                          "message": "Не принято пользовательское соглашение."
+                                                        },
+                                                        {
+                                                          "field": "acceptedPersonalDataProcessing",
+                                                          "message": "Не принято соглашение на обработку персональных данных."
+                                                        }
+                                                      ]
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
             )
     })
-    @CommonFieldErrorApiResponse
     @CommonApiResponses
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Список обновляемых полей аккаунта",
@@ -87,12 +138,38 @@ public class RegistrationController {
                                                       "error": "Код подтверждения истёк. Пожалуйста, запросите новый код."
                                                     }
                                                     """
+                                    ),
+                                    @ExampleObject(
+                                            name = "FieldValidationException",
+                                            summary = "Ошибка регистрации",
+                                            value = """
+                                                    {
+                                                      "error": "Ошибка регистрации",
+                                                      "detailedErrors": [
+                                                        {
+                                                          "field": "email",
+                                                          "message": "Некорректный формат Email."
+                                                        },
+                                                        {
+                                                          "field": "firstName",
+                                                          "message": "Поле пустое."
+                                                        },
+                                                        {
+                                                          "field": "acceptedPrivacyPolicy",
+                                                          "message": "Не принято пользовательское соглашение."
+                                                        },
+                                                        {
+                                                          "field": "acceptedPersonalDataProcessing",
+                                                          "message": "Не принято соглашение на обработку персональных данных."
+                                                        }
+                                                      ]
+                                                    }
+                                                    """
                                     )
                             }
                     )
             )
     })
-    @CommonFieldErrorApiResponse
     @CommonApiResponses
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Список обновляемых полей аккаунта",
