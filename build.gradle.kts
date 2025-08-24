@@ -36,6 +36,7 @@ dependencies {
     implementation("io.grpc:grpc-services")
     implementation("net.devh:grpc-client-spring-boot-starter:2.15.0.RELEASE")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
     testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.h2database:h2")
