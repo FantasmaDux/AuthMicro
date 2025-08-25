@@ -1,9 +1,5 @@
 package io.github.pavelshe11.authmicro.annotations;
 
-import io.github.pavelshe11.authmicro.api.dto.ErrorDto;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -17,19 +13,7 @@ import java.lang.annotation.Target;
 @ApiResponses({
         @ApiResponse(
                 responseCode = "500",
-                description = "Внутренняя ошибка сервера",
-                content = @Content(
-                        schema = @Schema(implementation = ErrorDto.class),
-                        examples = @ExampleObject(
-                                name = "ServerError",
-                                summary = "Ошибка сервера",
-                                value = """
-                                        {
-                                          "error": "Внутренняя ошибка сервера."
-                                        }
-                                        """
-                        )
-                )
+                description = "Внутренняя ошибка сервера"
         )
 })
 public @interface CommonApiResponses {

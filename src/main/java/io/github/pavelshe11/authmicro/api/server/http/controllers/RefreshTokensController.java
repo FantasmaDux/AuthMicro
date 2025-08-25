@@ -30,32 +30,6 @@ public class RefreshTokensController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Выданы обновлённые токены"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Ошибка авторизации",
-                    content = @Content(schema = @Schema(implementation = ErrorDto.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "InvalidTokenException",
-                                            summary = "Невалидный токен",
-                                            value = """
-                                                    {
-                                                      "error": "Невалидный токен."
-                                                    }
-                                                    """
-                                    ),
-                                    @ExampleObject(
-                                            name = "TokenExpiredException",
-                                            summary = "Срок действия токена истёк",
-                                            value = """
-                                                    {
-                                                      "error": "Срок действия токена истёк."
-                                                    }
-                                                    """
-                                    )
-                            }
-                    )
             )
     })
     @CommonApiResponses
