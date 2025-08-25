@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pavelshe11.authmicro.api.client.grpc.AccountCreationRequestGrpc;
 import io.github.pavelshe11.authmicro.api.client.grpc.AccountValidatorGrpc;
 import io.github.pavelshe11.authmicro.api.client.grpc.GetAccountInfoGrpc;
-import io.github.pavelshe11.authmicro.api.dto.responses.LoginResponseDto;
 import io.github.pavelshe11.authmicro.api.dto.responses.RegistrationResponseDto;
 import io.github.pavelshe11.authmicro.api.exceptions.InvalidCodeException;
 import io.github.pavelshe11.authmicro.api.exceptions.ServerAnswerException;
@@ -42,8 +41,6 @@ public class RegistrationService {
     public RegistrationResponseDto register(JsonNode registrationRequest) {
 
         String email = registrationRequest.path("email").asText(null);
-        email = registrationValidator.getTrimmedEmailOrThrow(email);
-        registrationValidator.validateEmailFormatOrThrow(email);
 
         Map<String, Object> userData = convertJsonNodeToMap(registrationRequest);
 
@@ -51,6 +48,8 @@ public class RegistrationService {
                 = accountValidatorGrpc.validateUserData(userData);
 
         registrationValidator.validateUserDataOrThrow(accountValidatorResponse);
+
+        email = email.trim();
 
         Optional<getAccountInfoProto.GetAccountInfoResponse> accountInfoOpt =
                 getAccountInfoGrpc.getAccountInfoByEmail(email);
@@ -79,8 +78,6 @@ public class RegistrationService {
         String email = registrationConfirmRequest.path("email").asText(null);
         String code = registrationConfirmRequest.path("code").asText(null);
 
-        email = registrationValidator.getTrimmedEmailOrThrow(email);
-        registrationValidator.validateEmailFormatOrThrow(email);
         code = registrationValidator.getTrimmedCodeOrThrow(code);
 
         Map<String, Object> userData = convertJsonNodeToMap(registrationConfirmRequest);
@@ -89,6 +86,8 @@ public class RegistrationService {
                 = accountValidatorGrpc.validateUserData(userData);
 
         registrationValidator.validateUserDataOrThrow(accountValidatorResponse);
+
+        email = email.trim();
 
         RegistrationSessionEntity registrationSession = registrationSessionRepository
                 .findByEmail(email)
