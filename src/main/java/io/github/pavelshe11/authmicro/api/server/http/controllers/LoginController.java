@@ -40,10 +40,10 @@ public class LoginController {
                     content = @Content(schema = @Schema(implementation = ErrorDto.class),
                             examples = @ExampleObject(
                                     name = "ValidationError",
-                                    summary = "Ошибка логина",
+                                    summary = "Ошибка логина.",
                                     value = """
                                             {
-                                              "error": "Ошибка логина",
+                                              "error": "Ошибка логина.",
                                               "detailedErrors": [
                                                 {
                                                   "field": "email",
@@ -81,7 +81,7 @@ public class LoginController {
                                             summary = "Ошибка валидации",
                                             value = """
                                                     {
-                                                      "error": "Ошибка валидации",
+                                                      "error": "Ошибка валидации.",
                                                       "detailedErrors": [
                                                         {
                                                           "field": "email",
@@ -96,16 +96,29 @@ public class LoginController {
                                             summary = "Неверный код подтверждения",
                                             value = """
                                                     {
-                                                      "error": "Неверный код подтверждения."
+                                                      "error": "Ошибка подтверждения кода.",
+                                                      "detailedErrors": [
+                                                        {
+                                                          "field": "code",
+                                                          "message": "Неверный код подтверждения."
+                                                        }
+                                                      ]
                                                     }
                                                     """
                                     ),
                                     @ExampleObject(
                                             name = "CodeExpiredException",
                                             summary = "Код подтверждения истёк",
-                                            value = """
+                                            value =
+                                                    """
                                                     {
-                                                      "error": "Код подтверждения истёк. Пожалуйста, запросите новый код."
+                                                      "error": "Ошибка подтверждения кода.",
+                                                      "detailedErrors": [
+                                                        {
+                                                          "field": "code",
+                                                          "message": "Код подтверждения истёк. Пожалуйста, запросите новый код."
+                                                        }
+                                                      ]
                                                     }
                                                     """
                                     )

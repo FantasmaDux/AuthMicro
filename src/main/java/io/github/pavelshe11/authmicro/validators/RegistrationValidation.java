@@ -7,6 +7,7 @@ import io.github.pavelshe11.authmicro.api.exceptions.InvalidCodeException;
 import io.github.pavelshe11.authmicro.grpc.AccountValidatorProto;
 import io.github.pavelshe11.authmicro.store.entities.RegistrationSessionEntity;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -69,8 +70,9 @@ public class RegistrationValidation {
 
     public void validateEmailFormatOrThrow(String email) {
         List<FieldErrorDto> fieldErrors = new ArrayList<>();
-        String emailPattern = "^[\\w-.]+@[\\w-]+(\\.[\\w-]+)*\\.[a-z]{2,}$";
-        if (email == null || !email.matches(emailPattern)) {
+        EmailValidator validator = EmailValidator.getInstance(false, true);
+
+        if (email == null || !validator.isValid(email)) {
             fieldErrors.add(
                     new FieldErrorDto("email", "email.format.incorrect")
             );
