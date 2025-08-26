@@ -6,6 +6,7 @@ import io.github.pavelshe11.authmicro.api.exceptions.FieldValidationException;
 import io.github.pavelshe11.authmicro.api.exceptions.InvalidCodeException;
 import io.github.pavelshe11.authmicro.api.exceptions.ServerAnswerException;
 import io.github.pavelshe11.authmicro.store.entities.LoginSessionEntity;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -64,12 +65,13 @@ public class LoginValidation {
 
     public void validateEmailFormatOrThrow(String email) {
         List<FieldErrorDto> fieldErrors = new ArrayList<>();
-        String emailPattern = "^[\\w-.]+@[\\w-]+(\\.[\\w-]+)*\\.[a-z]{2,}$";
-        if (email == null || !email.matches(emailPattern)) {
+        EmailValidator validator = EmailValidator.getInstance(false, true);
+
+        if (email == null || !validator.isValid(email)) {
             fieldErrors.add(
                     new FieldErrorDto("email", "email.format.incorrect")
             );
-            throw new FieldValidationException("login.error", fieldErrors);
+            throw new FieldValidationException("registration.error", fieldErrors);
         }
     }
 }
