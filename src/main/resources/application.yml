@@ -55,7 +55,7 @@ logging:
     root: INFO
     org.springframework.security: DEBUG
     io.jsonwebtoken: DEBUG
-    io.github.pavelshe11.authmicro: DEBUG
+    io.github.fantasmadux.authmicro: DEBUG
 
 server:
   port: ${AUTH_HTTP}

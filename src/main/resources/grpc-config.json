@@ -3,19 +3,19 @@
     {
       "name": [
         {
-          "service": "io.github.pavelshe11.authmicro.grpc.AccountCreationService",
+          "service": "io.github.fantasmadux.authmicro.grpc.AccountCreationService",
           "method": "CreateAccount"
         },
         {
-          "service": "io.github.pavelshe11.authmicro.grpc.AccountValidatorService",
+          "service": "io.github.fantasmadux.authmicro.grpc.AccountValidatorService",
           "method": "ValidateUserData"
         },
         {
-          "service": "io.github.pavelshe11.authmicro.grpc.GetAccountInfoService",
+          "service": "io.github.fantasmadux.authmicro.grpc.GetAccountInfoService",
           "method": "GetAccountInfoByEmail"
         },
         {
-          "service": "io.github.pavelshe11.authmicro.grpc.GetAccountInfoService",
+          "service": "io.github.fantasmadux.authmicro.grpc.GetAccountInfoService",
           "method": "GetAccountInfoById"
         }
       ],

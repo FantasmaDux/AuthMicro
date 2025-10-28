@@ -7,7 +7,7 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = "io.github.pavelshe11"
+group = "io.github.fantasmadux"
 version = "0.0.1-SNAPSHOT"
 
 java {
