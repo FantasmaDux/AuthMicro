@@ -12,6 +12,7 @@ import io.github.fantasmadux.authmicro.api.exceptions.ServerAnswerException;
 import io.github.fantasmadux.authmicro.components.CodeGenerator;
 import io.github.fantasmadux.authmicro.grpc.AccountValidatorProto;
 import io.github.fantasmadux.authmicro.grpc.getAccountInfoProto;
+import io.github.fantasmadux.authmicro.store.entities.MailEntity;
 import io.github.fantasmadux.authmicro.store.entities.RegistrationSessionEntity;
 import io.github.fantasmadux.authmicro.store.repositories.RegistrationSessionRepository;
 import io.github.fantasmadux.authmicro.validators.RegistrationValidation;
@@ -35,6 +36,7 @@ public class RegistrationService {
     private final AccountValidatorGrpc accountValidatorGrpc;
     private final GetAccountInfoGrpc getAccountInfoGrpc;
     private final SessionCleanerService sessionCleanerService;
+    private final EmailService emailService;
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 
@@ -190,6 +192,14 @@ public class RegistrationService {
         registrationSessionRepository.save(registrationSession);
         log.info("REGISTRATION_CODE email={} code={}", registrationSession.getEmail(), code);
 
+        emailService.sendEmailForRegistration(
+                MailEntity.builder()
+                        .receiver(registrationSession.getEmail())
+                        .subject("Ваш код регистрации")
+                        .body("Ваш код: " + code)
+                        .build()
+        );
+
         return new RegistrationResponseDto(codeExpires.getTime(),
                 codeGenerator.getCodePattern());
     }
@@ -199,6 +209,16 @@ public class RegistrationService {
         String hashedCode = codeGenerator.codeHash(rawCode);
         long codeExpires = codeGenerator.codeExpiresGenerate();
         log.info("REGISTRATION_CODE email={} code={}", email, rawCode);
+
+        emailService.sendEmailForRegistration(
+                MailEntity.builder()
+                        .receiver(email)
+                        .subject("Ваш код регистрации")
+                        .body("Ваш код: " + rawCode)
+                        .build()
+        );
+
+
         return returnNewRegistrationResponseDto(email, hashedCode, new Timestamp(codeExpires));
     }
 
