@@ -9,6 +9,7 @@ import io.github.fantasmadux.authmicro.api.exceptions.ServerAnswerException;
 import io.github.fantasmadux.authmicro.components.CodeGenerator;
 import io.github.fantasmadux.authmicro.grpc.getAccountInfoProto;
 import io.github.fantasmadux.authmicro.store.entities.LoginSessionEntity;
+import io.github.fantasmadux.authmicro.store.entities.MailEntity;
 import io.github.fantasmadux.authmicro.store.entities.RefreshTokenSessionEntity;
 import io.github.fantasmadux.authmicro.store.repositories.LoginSessionRepository;
 import io.github.fantasmadux.authmicro.store.repositories.RefreshTokenSessionRepository;
@@ -22,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -35,6 +39,7 @@ public class LoginService {
     private final LoginValidation loginValidator;
     private final RefreshTokenSessionRepository refreshTokenSessionRepository;
     private final SessionCleanerService sessionCleanerService;
+    private final EmailService emailService;
 
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
@@ -140,6 +145,12 @@ public class LoginService {
             session.setCodeExpires(new Timestamp(refreshCodeExpires));
 
             log.info("LOGIN_CODE email={} code={}", email, rawRefreshCode);
+            emailService.sendEmailForLogin(
+                    MailEntity.builder()
+                            .receiver(session.getEmail())
+                            .body("Ваш код: " + rawRefreshCode)
+                            .build()
+            );
             loginSessionRepository.save(session);
 
             return new LoginResponseDto(refreshCodeExpires, codeGenerator.getCodePattern());
@@ -161,6 +172,12 @@ public class LoginService {
                 .codeExpires(new Timestamp(codeExpires))
                 .build();
         log.info("LOGIN_CODE email={} code={}", email, rawCode);
+        emailService.sendEmailForLogin(
+                MailEntity.builder()
+                        .receiver(email)
+                        .body("Ваш код: " + rawCode)
+                        .build()
+        );
         loginSessionRepository.save(loginSession);
 
         return new LoginResponseDto(codeExpires, codeGenerator.getCodePattern());

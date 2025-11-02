@@ -118,7 +118,6 @@ public class RegistrationController {
     )
     @PostMapping(value = "", produces = "application/json")
     public RegistrationResponseDto sendRegistrationCode(@RequestBody JsonNode registrationRequest) {
-        // TODO: send email
         return registrationService.register(registrationRequest);
     }
 

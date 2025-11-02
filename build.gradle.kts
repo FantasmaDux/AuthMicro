@@ -52,6 +52,8 @@ dependencies {
     implementation ("io.grpc:grpc-stub:1.73.0")
     implementation("com.github.curious-odd-man:rgxgen:3.0")
 //    implementation ("com.google.protobuf:protobuf-java:3.25.1")
+    // для отправки сообщений на почту
+    implementation("org.springframework.boot:spring-boot-starter-mail")
     compileOnly("org.projectlombok:lombok")
     compileOnly ("org.apache.tomcat:annotations-api:6.0.53")
     runtimeOnly("org.postgresql:postgresql")
