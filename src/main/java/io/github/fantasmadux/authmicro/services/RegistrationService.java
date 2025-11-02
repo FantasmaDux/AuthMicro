@@ -195,7 +195,6 @@ public class RegistrationService {
         emailService.sendEmailForRegistration(
                 MailEntity.builder()
                         .receiver(registrationSession.getEmail())
-                        .subject("Ваш код регистрации")
                         .body("Ваш код: " + code)
                         .build()
         );
@@ -213,7 +212,6 @@ public class RegistrationService {
         emailService.sendEmailForRegistration(
                 MailEntity.builder()
                         .receiver(email)
-                        .subject("Ваш код регистрации")
                         .body("Ваш код: " + rawCode)
                         .build()
         );

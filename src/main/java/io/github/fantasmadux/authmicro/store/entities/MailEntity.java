@@ -9,6 +9,5 @@ import lombok.*;
 @Builder
 public class MailEntity {
     private String receiver;
-    private String subject;
     private String body;
 }

@@ -10,10 +10,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private static final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
-    @Value("${mail.username}")
+    // При удалении FakeMailSender убрать дефолтное значение
+    @Value("${mail.username:fake@mail.com}")
     private String username;
 
     public EmailServiceImpl(JavaMailSender mailSender) {
@@ -26,7 +27,7 @@ public class EmailServiceImpl implements EmailService{
         log.info("Запуск метода отправки сообщений на почту {}", mail.getReceiver());
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail.getReceiver());
-        message.setSubject(mail.getSubject());
+        message.setSubject("Ваш код регистрации");
         message.setText(mail.getBody());
         message.setFrom(username);
 
@@ -40,6 +41,18 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void sendEmailForLogin(MailEntity mail) {
+        log.info("Запуск метода отправки сообщений на почту {}", mail.getReceiver());
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mail.getReceiver());
+        message.setSubject("Ваш код для входа");
+        message.setText(mail.getBody());
+        message.setFrom(username);
 
+        try {
+            mailSender.send(message);
+            log.info("Сообщение отправлено {}", mail.getBody());
+        } catch (Exception e) {
+            log.error("Ошибка при отправке письма на {}: {}", mail.getReceiver(), e.getMessage(), e);
+        }
     }
 }
