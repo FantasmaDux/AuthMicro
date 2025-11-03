@@ -1,7 +1,7 @@
 # Микросервис авторизации
 ![GitHub Created At](https://img.shields.io/github/created-at/FantasmaDux/AuthMicro?color=bright-green&style=flat-square)
 ![Docker](https://img.shields.io/badge/docker-✓-blue?style=flat-square)
-[![license](https://img.shields.io/github/license/FantasmaDux/AuthMicro.svg?color=bright-green&style=flat-square)](license)
+[![license](https://img.shields.io/github/license/FantasmaDux/AuthMicro.svg?color=bright-green&style=flat-square)](LICENSE)
 
 
 Микросервис использует для авторизации одноразовые коды и почту. Реализован на JWT токенах. Микросервис является частью проекта чата.
